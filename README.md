@@ -41,9 +41,9 @@ This project contains the following services wrapped as docker containers
 
 1. **Neo4j**:
    - Neo4j, a graph database, is used to store the information about actors, movies, and their ratings.
-2. **Api**:
+2. **API**:
    - Uses LangChain's `neo4j-semantic-layer` template to implement the OpenAI LLM and function calling capabilities.
-3. **Memory Tool**:
+3. **UI**:
    - Simple streamlit chat user interface. Available on `localhost:8501`.
 
 ## Populating with data
