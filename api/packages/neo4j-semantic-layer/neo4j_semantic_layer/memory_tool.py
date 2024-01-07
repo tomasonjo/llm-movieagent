@@ -50,7 +50,7 @@ class MemoryInput(BaseModel):
 
 class MemoryTool(BaseTool):
     name = "Memory"
-    description = "useful for memorizing which movies the user liked"
+    description = "useful for memorizing which movies the user already watched"
     args_schema: Type[BaseModel] = MemoryInput
 
     def _run(

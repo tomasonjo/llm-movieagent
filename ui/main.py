@@ -16,18 +16,15 @@ class StreamHandler:
         self.status = status
         self.container = container
         self.text = initial_text
-        self.status_updates = []
 
     def new_token(self, token: str) -> None:
         self.text += token
         self.container.markdown(self.text)
 
     def new_status(self, status_update: str) -> None:
-        self.status_updates.append(status_update)
         status.update(label="Generating answer🤖", state="running", expanded=True)
         with status:
-            for update in self.status_updates:
-                st.write(update)
+            st.write(status_update)
 
 
 # Initialize chat history

@@ -13,6 +13,34 @@ def get_user_id() -> int:
     return 1
 
 
+def remove_lucene_chars(text: str) -> str:
+    """Remove Lucene special characters"""
+    special_chars = [
+        "+",
+        "-",
+        "&",
+        "|",
+        "!",
+        "(",
+        ")",
+        "{",
+        "}",
+        "[",
+        "]",
+        "^",
+        '"',
+        "~",
+        "*",
+        "?",
+        ":",
+        "\\",
+    ]
+    for char in special_chars:
+        if char in text:
+            text = text.replace(char, " ")
+    return text.strip()
+
+
 def generate_full_text_query(input: str) -> str:
     """
     Generate a full-text search query for a given input string.
@@ -24,7 +52,7 @@ def generate_full_text_query(input: str) -> str:
     to database values, and allows for some misspelings.
     """
     full_text_query = ""
-    words = input.split()
+    words = [el for el in remove_lucene_chars(input).split() if el]
     for word in words[:-1]:
         full_text_query += f" {word}~0.8 AND"
     full_text_query += f" {words[-1]}~0.8"
