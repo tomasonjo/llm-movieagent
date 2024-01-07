@@ -79,7 +79,7 @@ def recommend_movie(movie: Optional[str] = None, genre: Optional[str] = None) ->
     candidates = get_candidates(movie, "movie")
     if not candidates:
         return "The movie you mentioned wasn't found in the database"
-    params["movieTitles"] = [el['candidate'] for el in candidates]
+    params["movieTitles"] = [el["candidate"] for el in candidates]
     query = recommendation_query_movie(bool(genre))
     response = graph.query(query, params)
     try:

@@ -13,7 +13,7 @@ from neo4j_semantic_layer.information_tool import InformationTool
 from neo4j_semantic_layer.memory_tool import MemoryTool
 from neo4j_semantic_layer.recommendation_tool import RecommenderTool
 
-llm = ChatOpenAI(temperature=0, model="gpt-4")
+llm = ChatOpenAI(temperature=0, model="gpt-4", streaming=True)
 tools = [InformationTool(), RecommenderTool(), MemoryTool()]
 
 llm_with_tools = llm.bind(functions=[format_tool_to_openai_function(t) for t in tools])
