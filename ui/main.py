@@ -12,19 +12,27 @@ st.title("Movie agent")
 
 
 class StreamHandler:
-    def __init__(self, container, initial_text=""):
+    def __init__(self, container, status, initial_text=""):
+        self.status = status
         self.container = container
         self.text = initial_text
+        self.status_updates = []
 
     def new_token(self, token: str) -> None:
         self.text += token
         self.container.markdown(self.text)
 
+    def new_status(self, status_update: str) -> None:
+        self.status_updates.append(status_update)
+        status.update(label="Generating answer🤖", state="running", expanded=True)
+        with status:
+            for update in self.status_updates:
+                st.write(update)
+
 
 # Initialize chat history
 if "generated" not in st.session_state:
     st.session_state["generated"] = []
-# User input
 if "user_input" not in st.session_state:
     st.session_state["user_input"] = []
 
@@ -50,7 +58,10 @@ async def get_agent_response(
     ):
         log_entry = chunk.ops[0]
         value = log_entry.get("value")
-        if isinstance(value, str):
+        if isinstance(value, dict) and isinstance(value.get("steps"), list):
+            for step in value.get("steps"):
+                stream_handler.new_status(step["action"].log.strip("\n"))
+        elif isinstance(value, str):
             st.session_state["generated"][-1] += value
             stream_handler.new_token(value)
 
@@ -73,7 +84,9 @@ if prompt := st.chat_input("How can I help you today?"):
     with st.chat_message("user"):
         st.markdown(prompt)
     with st.chat_message("assistant"):
-        stream_handler = StreamHandler(st.empty())
+        status = st.status("Generating answer🤖")
+        stream_handler = StreamHandler(st.empty(), status)
+
     chat_history = generate_history()
     # Create an event loop: this is needed to run asynchronous functions
     loop = asyncio.new_event_loop()
@@ -82,5 +95,6 @@ if prompt := st.chat_input("How can I help you today?"):
     loop.run_until_complete(get_agent_response(prompt, stream_handler, chat_history))
     # Close the event loop
     loop.close()
+    status.update(label="Finished!", state="complete", expanded=False)
     # Add user message to chat history
     st.session_state.user_input.append(prompt)
