@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Any, List, Tuple
 
 from langchain.agents import AgentExecutor
 from langchain.agents.format_scratchpad import format_to_openai_function_messages
@@ -66,6 +66,10 @@ class AgentInput(BaseModel):
     )
 
 
-agent_executor = AgentExecutor(agent=agent, tools=tools).with_types(
-    input_type=AgentInput
+class Output(BaseModel):
+    output: Any
+
+
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True).with_types(
+    input_type=AgentInput, output_type=Output
 )
