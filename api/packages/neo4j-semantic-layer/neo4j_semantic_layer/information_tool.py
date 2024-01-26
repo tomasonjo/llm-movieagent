@@ -26,6 +26,7 @@ RETURN context LIMIT 1
 
 
 def get_information(entity: str, type: str) -> str:
+    # Use full text index to find relevant movies or people
     candidates = get_candidates(entity, type)
     if not candidates:
         return "No information was found about the movie or person in the database"
