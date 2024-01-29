@@ -21,8 +21,11 @@ The agent utilizes several tools to interact with the Neo4j graph database effec
    - Retrieves data about movies or individuals, ensuring the agent has access to the latest and most relevant information.
 2. **Recommendation Tool**:
    - Provides movie recommendations based upon user preferences and input.
-3. **Memory Tool**:
-   - Stores information about user preferences in the knowledge graph, allowing for a personalized experience over multiple interactions.
+3. **Plot Tool**:
+   - Finds movies based by their description using vector similarity search.
+4. **Aggregation Tool**:
+   - Calculates statistics by generating Cypher statements.
+   
 
 ## Environment Setup
 
