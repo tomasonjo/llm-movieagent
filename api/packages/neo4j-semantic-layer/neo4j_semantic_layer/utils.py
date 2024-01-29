@@ -51,7 +51,7 @@ def generate_full_text_query(input: str, type: str) -> str:
     operator. Useful for mapping movies and people from user questions
     to database values, and allows for some misspelings.
     """
-    property_map = {'movie': 'title', 'person': 'name'}
+    property_map = {"movie": "title", "person": "name"}
     full_text_query = ""
     words = [el for el in remove_lucene_chars(input).split() if el]
     for word in words[:-1]:
@@ -80,6 +80,7 @@ def get_candidates(input: str, type: str, limit: int = 3) -> List[Dict[str, str]
     """
     ft_query = generate_full_text_query(input, type)
     candidates = graph.query(
-        candidate_query, {"fulltextQuery": ft_query, "index": type + 'Fulltext', "limit": limit}
+        candidate_query,
+        {"fulltextQuery": ft_query, "index": type + "Fulltext", "limit": limit},
     )
     return candidates

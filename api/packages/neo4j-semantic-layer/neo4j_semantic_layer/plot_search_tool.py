@@ -7,8 +7,8 @@ from langchain.callbacks.manager import (
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.pydantic_v1 import BaseModel, Field
 from langchain.tools import BaseTool
-from neo4j_semantic_layer.utils import graph
 
+from neo4j_semantic_layer.utils import graph
 
 retrieval_query = """
 CALL db.index.vector.queryNodes($index, $k, $embedding) YIELD node, score
@@ -25,10 +25,14 @@ RETURN context
 
 embedding = OpenAIEmbeddings()
 
+
 def plot_search(description: str, k: int = 3) -> str:
     embed_description = embedding.embed_query(description)
-    data = graph.query(retrieval_query, {'index':'moviePlotsEmbedding', 'k':k, 'embedding': embed_description})
-    return "\n#Movie".join([el['context'] for el in data])
+    data = graph.query(
+        retrieval_query,
+        {"index": "moviePlotsEmbedding", "k": k, "embedding": embed_description},
+    )
+    return "\n#Movie".join([el["context"] for el in data])
 
 
 class PlotSearchInput(BaseModel):

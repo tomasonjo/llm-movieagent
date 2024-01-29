@@ -9,6 +9,7 @@ from langchain.schema import AIMessage, HumanMessage
 from langchain.tools.render import format_tool_to_openai_function
 from langchain_community.chat_models import ChatOpenAI
 
+from neo4j_semantic_layer.aggregation_tool import AggregationTool
 from neo4j_semantic_layer.information_tool import InformationTool
 from neo4j_semantic_layer.memory_tool import MemoryTool
 from neo4j_semantic_layer.plot_search_tool import PlotSearchTool
@@ -19,6 +20,7 @@ tools = [
     InformationTool(),
     RecommenderTool(),
     PlotSearchTool(),
+    AggregationTool(),
 ]  # , MemoryTool()] Memory module requires write permissions
 
 llm_with_tools = llm.bind(functions=[format_tool_to_openai_function(t) for t in tools])
