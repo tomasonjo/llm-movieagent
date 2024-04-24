@@ -48,8 +48,15 @@ This project contains the following services wrapped as docker containers
 
 ## Populating with data
 
-If you want to populate the DB with an example movie dataset, you can run `python ingest.py`.
-The script import information about movies and their rating by users.
+If you want to populate the DB with an example movie dataset, you can run [`ingest.py`](api/ingest.py).
+The script imports information about movies and their rating by users. 
+To run within the api docker container (recommended) do the following:
+```bash
+# access container shell
+docker exec -it <container id for llm-movieagent-api> bash
+# run script
+python ingest.py
+```
 Additionally, the script creates two [fulltext indices](https://neo4j.com/docs/cypher-manual/current/indexes-for-full-text-search/), which are used to map information from user input to the database.
 The dataset is based on the MovieLens dataset, which is also available as the `Recommendation` project in [Neo4j Sandbox](https://sandbox.neo4j.com/?usecase=recommendations).
 
