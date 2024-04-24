@@ -6,7 +6,7 @@ RUN poetry config virtualenvs.create false
 
 WORKDIR /code
 
-COPY ./pyproject.toml ./README.md ./poetry.lock* ./
+COPY ./pyproject.toml ./README.md ./poetry.lock* ./ingest.py ./
 
 COPY ./packages ./packages
 
